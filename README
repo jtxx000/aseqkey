@@ -1,0 +1,45 @@
+=========
+ aseqkey
+=========
+
+Introduction
+============
+
+aseqkey is a simple utility that turns alsa midi notes into x11 key presses.
+
+Build
+=====
+
+  $ make
+
+Usage
+=====
+
+aseqkey [-d] -p port [-n <note> [-k <key> ] ...]
+
+  where
+    -d          run as a daemon
+    -p <port>   listen on alsa port <port> (use `aseqdump -l` to list ports)
+    -n <note>   listen for midi note <note> on/offs
+    -k <key>    send key press/releases for x11 key <key>
+
+Examples
+========
+
+Map middle C (midi note 60) to the j key:
+
+  aseqkey -p 'my midi interface' -n 60 -k j
+
+Map midi note 42 to the combination of ctrl and shift:
+
+  aseqkey -p 'my midi interface' -n 42 -k Shift_L -k Control_L
+
+Map midi notes 1-6 to various modifier key combinations in daemon mode:
+
+  aseqkey -d -p 'my midi interface'         \
+    -n 1 -k Meta_L                          \
+    -n 2 -k Meta_L -k Shift_L               \
+    -n 4           -k Shift_L               \
+    -n 3           -k Shift_L -k Control_L  \
+    -n 5                      -k Control_L  \
+    -n 6 -k Meta_L            -k Control_L
